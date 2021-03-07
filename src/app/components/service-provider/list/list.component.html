@@ -1,0 +1,231 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+
+
+
+
+
+
+
+
+<app-page-header [title]="'Service Providers'">
+
+
+  <!-- <button class="btn btn-link" type="button" (click)="toggleAdvanceSearch()">
+    Advance Search
+  </button>
+  <button class="btn btn-dark" type="button" routerLink="/users/add">Add New User</button> -->
+</app-page-header>
+
+
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form (ngSubmit)="customFilter()" [@slideInOut]="animationState">
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="filters.firstName"
+                       placeholder="First Name">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="filters.lastName"
+                       placeholder="Last Name">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="text" class="form-control" id="email" name="email" [(ngModel)]="filters.email"
+                       placeholder="Email">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="phoneNumber">Contact Number</label>
+                <div class="row">
+                  <div class="col-3 pr-0">
+                    <select [(ngModel)]="filters.countryCode" id="countryCode" name="countryCode" class="form-control">
+                      <option value=""></option>
+                      <option *ngFor="let item of countryCodes" [value]="item.value">
+                        {{item.title}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-9">
+                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="filters.phoneNumber"
+                           placeholder="Contact Number">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="regionId">Please select a region</label>
+                <select [(ngModel)]="filters.regionId" id="regionId" name="regionId" class="form-control">
+                  <option value="">Select region</option>
+                  <option *ngFor="let item of regions" [value]="item.id">
+                    {{item.zip_code}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select [(ngModel)]="filters.role" id="role" name="role" class="form-control">
+                  <option value="">Select Role</option>
+                  <option *ngFor="let role of roles" [value]="role.value">
+                    {{role.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select [(ngModel)]="filters.status" id="status" name="status" class="form-control">
+                  <option value="">Select Status</option>
+                  <option *ngFor="let single_status of status" [value]="single_status.value">
+                    {{single_status.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
+            <button class="btn btn-outline-secondary mr-2 float-right" type="reset">Clear Filters</button>
+          </div>
+
+          <hr/>
+        </form>
+
+
+        <ngb-tabset [destroyOnHide]="false">
+          <ngb-tab title="New Request">
+            <ng-template ngbTabContent>
+              <div class="table-responsive- datatable-wrapper">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Service Provider Name</th>
+                    <th>Image</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let user of users; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <a [routerLink]="'/service-provider/detail/' + user.id" class="dashed-link">
+                        {{ user.first_name }}&nbsp;{{ user.last_name }}
+                      </a>
+                    </td>
+                    <td>
+                      <a href="#" class="kt-media">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQmfc4hPU888dgyMrD05hcut0vmpWpTWJDaYImHY_a5sHd8FXR5&usqp=CAU" alt="image">
+                    </a>
+      
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td>
+                      <app-status-badge [status]="user.status"></app-status-badge>
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <button class="btn btn-primary icon-btn btn-xs" type="button"
+                                (click)="doAction('edit', service-provider)">
+                          <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger icon-btn btn-xs" type="button"
+                                (click)="doAction('delete', service-provider)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="users?.length == 0">
+                    <td colspan="7" class="no-data-available">No data!</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab>
+            <ng-template ngbTabTitle>All Providers</ng-template>
+            <ng-template ngbTabContent>
+              <div class="table-responsive- datatable-wrapper">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Service Provider Name</th>
+                    <th>Image</th>
+                    <th>Email</th>
+                    <th>Phone No</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let user of users; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <a [routerLink]="'/service-provider/detail/' + user.id" class="dashed-link">
+                        {{ user.first_name }}&nbsp;{{ user.last_name }}
+                      </a>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td class="text-capitalize">{{ user.role }}</td>
+                    <td>
+                      <app-status-badge [status]="user.status"></app-status-badge>
+                    </td>
+                    <td>
+                      
+                      <div class="btn-group">
+                        <button class="btn btn-primary icon-btn btn-xs" type="button"
+                                (click)="doAction('edit', user)">
+                          <i class="fa fa-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger icon-btn btn-xs" type="button"
+                                (click)="doAction('delete', user)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="users?.length == 0">
+                    <td colspan="7" class="no-data-available">No data!</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-tab>
+         
+        </ngb-tabset>
+
+      
+      </div>
+    </div>
+  </div>
+</div>

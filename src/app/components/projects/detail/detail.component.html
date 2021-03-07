@@ -1,0 +1,295 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header title="Project Detail"></app-page-header>
+
+<div class="row">
+  <div class="col-12">
+
+    <div class="kt-portlet" *ngIf="project">
+      <div class="kt-portlet__body">
+        <div class="kt-widget kt-widget--user-profile-3">
+          <div class="kt-widget__top" *ngIf="project.category">
+            <div class="kt-widget__media">
+              <img src="{{project.category.image}}" alt="image" style="height: 80px; width: auto;">
+            </div>
+            <div class="kt-widget__content">
+              <div class="kt-widget__head">
+                <a class="kt-widget__username">
+                  {{project.title}}
+                  <i class="flaticon2-correct kt-font-success"></i>
+                </a>
+
+                <div class="kt-widget__action">
+                  <a target="_blank" [href]="contract.contract_url" class="btn btn-label-primary btn-sm btn-upper"
+                          *ngIf="project.contract && project.contract.id && contract.contract_url">
+                    View Contract
+                  </a>&nbsp;
+                  <button type="button" class="btn btn-danger btn-sm btn-upper"
+                          (click)="doAction('cancel', project)" *ngIf="project.status === 'pending'">
+                    Cancel Project
+                  </button>
+                  <button type="button" class="btn btn-success btn-sm btn-upper"
+                          (click)="doAction('activate', project)" *ngIf="project.status === 'cancelled'">
+                    Activate Project
+                  </button>
+                </div>
+              </div>
+
+              <div class="kt-widget__subhead">
+                {{project.category.title}}
+              </div>
+
+              <div class="kt-widget__info">
+                <div class="kt-widget__desc">
+                  {{project.category.description}}
+                </div>
+
+                <div class="kt-widget__progress">
+                  <div class="kt-widget__text">
+                    Progress
+                  </div>
+                  <div class="progress" style="height: 5px;width: 100%;">
+                    <div class="progress-bar kt-bg-success" role="progressbar" [ngStyle]="{width: project.progress+ '%'}" aria-valuenow="25"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <div class="kt-widget__stats">
+                    {{project.progress ? project.progress : 0}}%
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="kt-widget__bottom">
+            <div class="kt-widget__item" *ngIf="project.appointment">
+              <div class="kt-widget__icon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <div class="kt-widget__details">
+                <span class="kt-widget__title">
+                  Appointment Date
+                  <i class="fa fa-info text-primary ml-2" [title]="'Appointment status is ' + project.appointment.status"></i>
+                </span>
+                <span class="kt-widget__value">
+                  <app-datetime [date]="project.appointment.appointment_time" [includeTime]="true"></app-datetime>
+                </span>
+              </div>
+            </div>
+
+            <div class="kt-widget__item" *ngIf="project.user_property">
+              <div class="kt-widget__icon">
+                <i class="fa fa-bed"></i>
+              </div>
+              <div class="kt-widget__details">
+                <span class="kt-widget__title">Rooms</span>
+                <span class="kt-widget__value">{{project.user_property.number_of_rooms}}</span>
+              </div>
+            </div>
+
+            <div class="kt-widget__item" *ngIf="project.user_property">
+              <div class="kt-widget__icon">
+                <i class="fa fa-home"></i>
+              </div>
+              <div class="kt-widget__details">
+                <span class="kt-widget__title">Total Sq. Footage</span>
+                <span class="kt-widget__value">{{project.user_property.house_size}}</span>
+              </div>
+            </div>
+
+            <div class="kt-widget__item">
+              <div class="kt-widget__icon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <div class="kt-widget__details">
+                <span class="kt-widget__title">Completion Date</span>
+                <span class="kt-widget__value">
+                  <app-datetime [date]="project.deadline" [includeTime]="false"></app-datetime>
+                </span>
+              </div>
+            </div>
+
+            <div class="kt-widget__item">
+              <div class="kt-widget__icon">
+                <i class="fa fa-dollar"></i>
+              </div>
+              <div class="kt-widget__details">
+                <span class="kt-widget__title">Max Budget</span>
+                <span class="kt-widget__value">{{project.budget}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Customer</h4>
+        <app-user [user]="project.requester" [full]="false"></app-user>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Tech</h4>
+        <app-user [user]="project.manager" [full]="false" [message]="'No tech confirmed yet.'"></app-user>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Service Provider</h4>
+        <app-user [user]="project.provider" [full]="false" [message]="'No provider assigned yet.'"></app-user>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Bid History</h4>
+        <div *ngIf="project.bids">
+          <div class="kt-widget kt-widget--users kt-mt-20">
+            <div class="kt-widget__items">
+              <div class="kt-widget__item" *ngFor="let bid of project.bids">
+                  <span class="kt-media kt-media--circle">
+                      <img src="assets/custom/images/user-icon.svg" alt="image">
+                  </span>
+                <div class="kt-widget__info">
+                  <div class="kt-widget__section" *ngIf="bid.provider">
+                    <a [routerLink]="'/users/detail/' + bid.provider_id" class="kt-widget__username">
+                      {{bid.provider.first_name + " " + bid.provider.last_name}}
+                    </a>
+                    <span class="kt-badge kt-badge--success kt-badge--dot" *ngIf="bid.status === 'won'"></span>
+                  </div>
+
+                  <span class="kt-widget__desc">
+                        <span class="mr-2">{{bid.amount ? '$' + bid.amount : ''}}</span>
+                        <app-status-badge *ngIf="bid.status" [status]="bid.status"></app-status-badge>
+                    </span>
+                </div>
+                <div class="kt-widget__action">
+                  <span class="kt-widget__date"><app-datetime [date]="bid.created_at"
+                                                              [includeTime]="false"></app-datetime></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Milestones</h4>
+        <div *ngIf="project.selected_bid">
+          <div class="row">
+            <div class="col-xl-4" *ngFor="let milestone of project.selected_bid.milestones">
+              <!--Begin::Portlet-->
+              <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head kt-portlet__head--noborder">
+                </div>
+                <div class="kt-portlet__body">
+                  <!--begin::Widget -->
+                  <div class="kt-widget kt-widget--user-profile-2">
+                    <div class="kt-widget__head" style="min-height: 80px;">
+
+                      <div class="kt-widget__info p-0">
+                        <a class="kt-widget__username">
+                          {{milestone.title}}
+                        </a>
+                        <span class="kt-widget__desc">
+                        <app-datetime [date]="milestone.expected_completion_at" [includeTime]="true"></app-datetime>
+                      </span>
+                      </div>
+                    </div>
+
+                    <div class="kt-widget__body pt-2">
+                      <div class="kt-widget__item">
+                        <div class="kt-widget__contact">
+                          <span class="kt-widget__label">Submitted:</span>
+                          <app-datetime [date]="milestone.created_at" [includeTime]="true"></app-datetime>
+                        </div>
+                        <div class="kt-widget__contact">
+                          <span class="kt-widget__label">Payment Status:</span>
+                          {{milestone.payment_status}}
+                        </div>
+                        <div class="kt-widget__contact">
+                          <span class="kt-widget__label">Amount:</span>
+                          ${{milestone.amount}}
+                        </div>
+                        <div class="kt-widget__contact">
+                          <span class="kt-widget__label">status:</span>
+                          <app-status-badge *ngIf="milestone.status" [status]="milestone.status"></app-status-badge>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end::Widget -->
+                </div>
+              </div>
+              <!--End::Portlet-->
+            </div>
+          </div>
+        </div>
+        <p *ngIf="!project.selected_bid_id">No Milestones yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Project Additional Questions</h4>
+        <div class="row" *ngIf="project.answers">
+          <div class="col-sm-6" *ngFor="let answer of project.answers">
+            <div class="px-2 py-3 border-bottom border-top" *ngIf="answer.question">
+              <strong>{{answer.question.question}}</strong>
+            </div>
+            <div class="px-3 py-3" *ngIf="answer.question.question_type !== 'file' && answer.answer">{{answer.answer}}</div>
+            <div class="px-3 py-3" *ngIf="answer.question.question_type === 'file' && answer.answer">
+              <a target="_blank" [href]="answer.answer">View File <i class="fa fa-arrow-right ml-2"></i></a>
+            </div>
+          </div>
+        </div>
+        <br />
+        <h4 class="card-title">Additional Notes</h4>
+        {{project.notes ? project.notes : '...'}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Project Attachments</h4>
+        <div *ngIf="project.attachments">
+          <div *ngFor="let attachment of project.attachments" class="w-25 p-4 d-inline-block">
+            <div class="kt-widget__media">
+              <img src="{{attachment.file_name}}" alt="image" class="img-thumbnail">
+            </div>
+          </div>
+        </div>
+        <div class="text-center" *ngIf="!(project.attachments && project.attachments.length)" style="min-height: 98px;">
+          No attachments found.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

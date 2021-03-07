@@ -1,0 +1,39 @@
+<div class="row" *ngIf="user">
+  <div [class]="full ? 'col-md-2' : 'col-md-3'" *ngIf="image">
+    <img class="img-fluid w-100 rounded"
+         src="{{user.profile_picture ? user.profile_picture : 'assets/custom/images/user-icon.svg' }}" alt="">
+  </div>
+  <div [class]="full ? 'col-md-4' : 'col-md-9'">
+    <address>
+      <p class="font-weight-bold"> Name </p>
+      <p class="mb-2">{{user.first_name + " " + user.last_name}}</p>
+      <div class="star-rating-absolute" *ngIf="user.role === 'provider' && (user.rating === 0 || user.rating)">
+          <span *ngFor="let index of [1,2,3,4,5]">
+            <span class="fa fa-star text-warning" *ngIf="index <= user.rating"></span>
+            <span class="fa fa-star" *ngIf="index > user.rating"></span>
+          </span>
+        ({{user.no_of_rating}})
+      </div>
+      <p class="font-weight-bold"> E-mail </p>
+      <p class="mb-2">{{user.email}}</p>
+      <p class="font-weight-bold"> Contact Number </p>
+      <p class="mb-2">{{user.phone_number}}</p>
+      <p class="font-weight-bold" *ngIf="user.company_name"> Company Name </p>
+      <p class="mb-2" *ngIf="user.company_name">{{user.company_name}}</p>
+      <p class="font-weight-bold" *ngIf="user.categories"> Categories/Services </p>
+      <p class="mb-2" *ngIf="user.categories">
+        <span *ngFor="let item of user.categories">{{item.title}}, </span>
+      </p>
+      <p class="font-weight-bold" *ngIf="user.service_areas && user.service_areas[0]"> Service Area </p>
+      <p class="mb-2" *ngIf="user.service_areas && user.service_areas[0].zip_code">
+      <strong *ngFor="let item of user.service_areas;let i = index" [ngClass]="{'text-capitalize': i == 0, 'pl-1 text-capitalize':i > 0 }">{{item.zip_code}}</strong>
+      </p>
+      <p class="font-weight-bold"> Status </p>
+      <p class="mb-2"><app-status-badge *ngIf="user.status" [status]="user.status"></app-status-badge></p>
+    </address>
+  </div>
+</div>
+
+<div class="text-center mt-4" *ngIf="message && !user" style="min-height: 166px;">
+  <small>{{ message }}</small>
+</div>

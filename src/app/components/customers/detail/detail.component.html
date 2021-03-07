@@ -1,0 +1,66 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Customer'"></app-page-header>
+
+<div class="row">
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">General</h4>
+        <div class="address">
+          <p><strong>First Name :</strong><br>
+            {{ detail?.first_name}}
+           </p>
+           <p><strong>Last Name :</strong><br>
+            {{ detail?.last_name}}
+           </p>
+           <p><strong>Email :</strong><br>
+            {{ detail?.email }}
+           </p>
+           <p><strong>Phone :</strong><br>
+            {{ detail?.phone }}
+           </p>
+
+          <p><strong>SignUp date :</strong><br>
+            {{ detail?.createdAt | date:'dd MMM y' }}
+           </p>
+
+            <p><strong>Status:</strong><br>
+              {{ detail?.is_blocked ? 'Blocked' : 'Active' }}
+              </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Billing</h4>
+        <div class="address">
+          <p>{{ detail?.billing.first_name }} {{ detail?.billing.last_name }}<br>
+            {{detail?.billing.address}}<br>
+            {{detail?.billing.city}}, {{detail?.billing.state.name}} {{detail?.billing.zip_code}}</p>
+            <p><strong>Email address:</strong><br>
+               <a href="mailto:">{{ detail?.billing.email }}</a>
+              </p>
+              <p><strong>Phone:</strong><br>
+                <a href="tel:8049047693">{{ detail?.billing.phone }}</a>
+              </p>				
+            		</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Shipping</h4>
+        <div class="address">
+          <p>{{ detail?.shipping.first_name }} {{ detail?.shipping.last_name }}<br>
+            {{detail?.shipping.address}}<br>
+            {{detail?.shipping.city}}, {{detail?.shipping.state.name}} {{detail?.shipping.zip_code}}</p>	
+            		</div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,7 @@
+<div *ngIf="message" [class]="'alert alert-fill-' + type" role="alert">
+  <i class="mdi mdi-alert-circle"></i>
+  {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

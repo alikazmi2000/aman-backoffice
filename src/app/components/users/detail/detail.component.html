@@ -1,0 +1,256 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="user.first_name + ' ' + user.last_name + ' - (' + user.role + ')'"></app-page-header>
+
+<div class="row">
+  <div class="col-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Basic Details</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <app-user [user]="user" *ngIf="user"></app-user>
+
+        <div class="mt-4">
+          <button type="button" class="btn btn-primary mx-1" (click)="doAction('edit', user)">
+            <i class="fa fa-pencil mr-2"></i>Edit User
+          </button>
+          <button type="button" class="btn btn-warning mx-1" *ngIf="user.status === 'active'"
+                  (click)="doAction('block', user)">
+            <i class="fa fa-lock mr-2"></i>Block User
+          </button>
+          <button type="button" class="btn btn-success mx-1" *ngIf="user.status === 'blocked'"
+                  (click)="doAction('activate', user)">
+            <i class="fa fa-check mr-2"></i>Activate User
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="mb-4 mx-2" *ngIf="user.properties && user.properties.length">User Properties</h3>
+<div class="row" *ngIf="user.properties && user.properties.length">
+  <div class="col-xl-3" *ngFor="let property of user.properties">
+    <!--Begin::Portlet-->
+    <div class="kt-portlet kt-portlet--height-fluid" *ngIf="property">
+      <div class="kt-portlet__head kt-portlet__head--noborder">
+        <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title">
+
+          </h3>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <!--begin::Widget -->
+        <div class="kt-widget kt-widget--user-profile-2">
+          <div class="kt-widget__head">
+            <div class="kt-widget__info">
+              <a class="kt-widget__titel kt-hidden-">
+                {{property.name}}
+              </a>
+            </div>
+          </div>
+
+          <div class="kt-widget__body">
+            <div class="kt-widget__section">
+              {{parseAddress(property.address)}}
+            </div>
+
+            <div class="kt-widget__item">
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Rooms:</span>
+                <a href="#" class="kt-widget__data">{{property.number_of_rooms}}</a>
+              </div>
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Built Year:</span>
+                <a href="#" class="kt-widget__data">{{property.built_year}}</a>
+              </div>
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">House Size:</span>
+                <span class="kt-widget__data">{{property.house_size}}</span>
+              </div>
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Lot Size:</span>
+                <span class="kt-widget__data">{{property.lot_size}}</span>
+              </div>
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Status:</span>
+                <app-status-badge *ngIf="property.status" [status]="property.status"></app-status-badge>
+              </div>
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Created At:</span>
+                <app-datetime [date]="property.created_at" [includeTime]="false"></app-datetime>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Widget -->
+      </div>
+    </div>
+    <!--End::Portlet-->
+  </div>
+</div>
+
+<h3 class="mb-4 mx-2" *ngIf="user.documents && user.documents.length">User Documents</h3>
+<div class="row" *ngIf="user.documents && user.documents.length">
+  <div class="col-xl-3" *ngFor="let document of user.documents">
+    <!--Begin::Portlet-->
+    <div class="kt-portlet kt-portlet--height-fluid" *ngIf="document">
+      <div class="kt-portlet__head kt-portlet__head--noborder">
+        <div class="kt-portlet__head-label">
+          <h3 class="kt-portlet__head-title">
+
+          </h3>
+        </div>
+      </div>
+      <div class="kt-portlet__body">
+        <!--begin::Widget -->
+        <div class="kt-widget kt-widget--user-profile-2">
+          <div class="kt-widget__head">
+            <div class="kt-widget__info">
+              <a class="kt-widget__titel kt-hidden-">
+                {{document.document.title}}
+              </a>
+            </div>
+          </div>
+
+          <div class="kt-widget__body">
+            <div class="kt-widget__section">
+              <img [src]="document.file_name" width="100%" class="mb-2"/>
+            </div>
+
+            <div class="kt-widget__item">
+              <div class="kt-widget__contact">
+                <span class="kt-widget__label">Expiry:</span>
+                <a href="#" class="kt-widget__data">
+                  <app-datetime [date]="document.expiry" [includeTime]="false"></app-datetime>
+                  <br/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Widget -->
+      </div>
+    </div>
+    <!--End::Portlet-->
+  </div>
+</div>
+
+<div class="row" *ngIf="user.cards && user.cards.length">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">User Cards</h4>
+        <div>
+          <div class="kt-widget kt-widget--users kt-mt-20">
+            <div class="kt-widget__items">
+              <div class="kt-widget__item" *ngFor="let card of user.cards">
+                  <span class="kt-media">
+                      <img [src]="'assets/custom/images/cards/' + card.card_brand + '.png'" alt="image"
+                           style="height: 32px; max-width: 55px;">
+                  </span>
+                <div class="kt-widget__info">
+                  <div class="kt-widget__section">
+                    **** **** **** {{card.card_last_four}}
+                    <span class="kt-badge kt-badge--success kt-badge--dot" *ngIf="card.is_default"></span>
+                  </div>
+
+                  <span class="kt-widget__desc">
+                        <app-status-badge *ngIf="card.status" [status]="card.status"></app-status-badge>
+                    </span>
+                </div>
+                <div class="kt-widget__action">
+                  <span class="kt-widget__date"><app-datetime [date]="card.created_at"
+                                                              [includeTime]="false"></app-datetime></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">User Bank Accounts</h4>
+        <div>
+          <div class="kt-widget kt-widget--users kt-mt-20">
+            <div class="kt-widget__items">
+              <div class="kt-widget__item" *ngFor="let account of user.accounts">
+                <div class="kt-widget__info">
+                  <div class="kt-widget__section">
+                    {{account.bank_name}}<br/>
+                    {{account.account_holder_name}}<br/>
+                    **** **** **** {{account.account_last_four}}
+                    <span class="kt-badge kt-badge--success kt-badge--dot" *ngIf="account.is_default"></span>
+                  </div>
+
+                  <span class="kt-widget__desc">
+                        <app-status-badge *ngIf="account.status" [status]="account.status"></app-status-badge>
+                    </span>
+                </div>
+                <div class="kt-widget__action">
+                  <span class="kt-widget__date"><app-datetime [date]="account.created_at"
+                                                              [includeTime]="false"></app-datetime></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Projects</h4>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th style="width: 200px">Project</th>
+              <th>Due Date</th>
+              <th>Project Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let project of projects; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td style="width: 200px; white-space: inherit; line-height: 1.8;">
+                <a [routerLink]="'/projects/detail/' + project.id" class="dashed-link">
+                  {{ project.title ? project.title : "&lt;No-title&gt;" }}
+                </a>
+              </td>
+              <td>
+                <app-datetime [date]="project.deadline" [includeTime]="false"></app-datetime>
+              </td>
+              <td>{{ project.category ? project.category.title : "No Category Assigned" }}</td>
+              <td>${{ project.budget }}</td>
+              <td>
+                <app-status-badge [status]="project.status"></app-status-badge>
+              </td>
+            </tr>
+            <tr *ngIf="projects?.length == 0">
+              <td colspan="6" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

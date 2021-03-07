@@ -1,0 +1,70 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Customers'">
+</app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Sign Up</th>
+              <th>Status</th>
+              <th>Actions</th>
+              <!-- <th>Commission Percentage</th> -->
+              <!-- <th>Status</th>
+              <th>Actions</th> -->
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let customer of customers; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ customer.first_name }} {{ customer.last_name }}</td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.phone }}</td>
+              <td>{{ customer.createdAt | date:'dd MMM y h:mm a' }}</td>
+              <td><app-status-badge [status]="customer.is_blocked ? 'blocked' : 'active'"></app-status-badge>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-primary icon-btn btn-xs" type="button"
+                  (click)="doAction('detail', customer)">
+            <i class="fa fa-eye"></i>
+          </button>
+
+          <button *ngIf="customer?.is_blocked" class="btn btn-primary icon-btn btn-xs" type="button"
+                          (click)="doAction('unblocked', customer)">
+                    <i class="fa fa-unlock-alt"></i>
+                  </button>
+                  <button *ngIf="!customer?.is_blocked" class="btn btn-primary icon-btn btn-xs" type="button"
+                          (click)="doAction('blocked', customer)">
+                    <i class="fa fa-lock"></i>
+                  </button>
+                  <button class="btn btn-danger icon-btn btn-xs" type="button"
+                          (click)="doAction('delete', customer)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="customers?.length == 0">
+              <td colspan="3" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

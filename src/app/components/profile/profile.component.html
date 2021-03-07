@@ -1,0 +1,96 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<div class="row">
+  <div class="col-lg-6">
+    <app-page-header [title]="'Edit Profile'"></app-page-header>
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Please update your Basic details.</h4>
+
+            <app-alert type="success" [message]="successMessage"></app-alert>
+            <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+            <form class="forms-sample" [formGroup]="form" autocomplete="off">
+
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('firstName','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('lastName','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Profile Picture</label><br />
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="file" (change)="onFileChanged($event)">
+                  </div>
+                  <div class="col-md-6">
+                    <div *ngIf="user.profile_picture">
+                      <img [src]="user.profile_picture" width="100" alt="Profile Picture" />
+                    </div>
+                  </div>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('profilePicture','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+              <button class="btn btn-primary mr-2" (click)="submit()">
+                <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+              </button>
+              <button class="btn btn-light" routerLink="/dashboard">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <app-page-header [title]="'Change Password'"></app-page-header>
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+
+            <app-alert type="success" [message]="successMessageChangePassword"></app-alert>
+            <app-alert type="danger" [message]="errorMessageChangePassword"></app-alert>
+
+            <form class="forms-sample" [formGroup]="formChangePassword" autocomplete="off">
+
+              <div class="form-group">
+                <label for="oldPassword">Old Password</label>
+                <input type="password" class="form-control" id="oldPassword" formControlName="oldPassword" placeholder="Old Password">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasErrorChangePassword('oldPassword','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="password">New Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="New Password">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasErrorChangePassword('password','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+              <button class="btn btn-primary mr-2" (click)="submitChangePassword()">
+                <i class="fa fa-spin fa-circle-o-notch" *ngIf="loadingChangePassword"></i> Submit
+              </button>
+              <button class="btn btn-light" routerLink="/dashboard">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

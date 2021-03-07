@@ -1,0 +1,101 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Products'">
+  <!-- <button class="btn btn-link" type="button" (click)="toggleAdvanceSearch()">
+    Advance Search
+  </button> -->
+  <button class="btn btn-dark" type="button" routerLink="/products/add">Add New Product</button>
+</app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form (ngSubmit)="customFilter()" [@slideInOut]="animationState">
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="name">Title</label>
+                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="filters.title"
+                       placeholder="Name">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select [(ngModel)]="filters.status" id="status" name="status" class="form-control">
+                  <option value="">Select Status</option>
+                  <option *ngFor="let single_status of status" [value]="single_status.value">
+                    {{single_status.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
+            <button class="btn btn-outline-secondary mr-2 float-right" type="reset">Clear Filters</button>
+          </div>
+
+          <hr/>
+        </form>
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>SKU</th>
+              <th>Stock</th>
+              <th>Price</th>
+              <th>Categories</th>
+              <!-- <th>Commission Percentage</th> -->
+              <th>Brand</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of products; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.sku }}</td>
+              <td>{{ product.stock_status }}({{product.stock_quantity}})</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.category_name }}</td>
+              <td>{{ product.brand_name }}</td>
+              <!-- <td>{{ product.admin_commission_percentage ? product.admin_commission_percentage : 0 }}%</td> -->
+              <td><app-status-badge [status]="product.status"></app-status-badge><br>{{ product.date_created | date:'dd MMM y h:mm a' }}</td>
+              <td>
+                <div class="btn-group">
+                  <a  href="{{'http://exotictonics.co/products/' + product._id + '/' + product.name}}" target="_blank" class="btn btn-primary icon-btn btn-xs"
+                  >
+                    <i class="fa fa-eye"></i>
+                </a>
+                  <button class="btn btn-primary icon-btn btn-xs" type="button"
+                          (click)="doAction('edit', product)">
+                    <i class="fa fa-pencil"></i>
+                  </button>
+                  <button class="btn btn-danger icon-btn btn-xs" type="button"
+                          (click)="doAction('delete', product)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="categories?.length == 0">
+              <td colspan="6" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

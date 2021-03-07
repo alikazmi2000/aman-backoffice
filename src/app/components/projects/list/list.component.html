@@ -1,0 +1,123 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Projects'">
+  <button class="btn btn-link" type="button" (click)="toggleAdvanceSearch()">
+    Advance Search
+  </button>
+</app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form (ngSubmit)="customFilter()" [@slideInOut]="animationState">
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="title">Project Name</label>
+                <input type="text" class="form-control" id="title" name="title" [(ngModel)]="filters.title"
+                       placeholder="Title">
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label>Due Date</label>
+                <div *ngIf="filters.deadline">
+                  <app-daterange (fromDateChanged)="setDate('from', $event)"
+                                 (toDateChanged)="setDate('to', $event)"></app-daterange>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="categoryId">Please select a project type</label>
+                <select [(ngModel)]="filters.categoryId" id="categoryId" name="categoryId" class="form-control">
+                  <option value="">Select Project Type</option>
+                  <option *ngFor="let item of categories" [value]="item.id">
+                    {{item.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4" *ngIf="false">
+              <div class="form-group">
+                <label for="regionId">Please select a region</label>
+                <select [(ngModel)]="filters.regionId" id="regionId" name="regionId" class="form-control">
+                  <option value="">Select region</option>
+                  <option *ngFor="let item of regions" [value]="item.id">
+                    {{item.zip_code}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select [(ngModel)]="filters.status" id="status" name="status" class="form-control">
+                  <option value="">Select Status</option>
+                  <option *ngFor="let single_status of status" [value]="single_status.value">
+                    {{single_status.title}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
+            <button class="btn btn-outline-secondary mr-2 float-right" type="reset" (click)="clearFilters()">Clear Filters</button>
+          </div>
+
+          <hr/>
+        </form>
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Project</th>
+              <th>Address</th>
+              <th>Due Date</th>
+              <th>Service Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let project of projects; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <a [routerLink]="'/projects/detail/' + project.id" class="dashed-link">
+                  {{ project.title ? project.title : "&lt;No-title&gt;" }}
+                </a>
+              </td>
+              <td>{{ parseAddress(project.user_property.address) }}</td>
+              <td><app-datetime [date]="project.deadline" [includeTime]="false"></app-datetime></td>
+              <td>{{ project.category ? project.category.title : "No Category Assigned" }}</td>
+              <td>{{ project.budget ? '$' + project.budget : '-' }}</td>
+              <td><app-status-badge [status]="project.status"></app-status-badge></td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-danger icon-btn btn-xs" type="button"
+                          (click)="doAction('delete', project)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="projects?.length == 0">
+              <td colspan="8" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

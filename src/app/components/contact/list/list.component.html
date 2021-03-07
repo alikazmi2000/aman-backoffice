@@ -1,0 +1,58 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Contact US List'">
+  
+</app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let contact of contacts; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{contact.name}}</td>
+              <td>{{contact.email}}</td>
+              <td>{{contact.phone}}</td>
+              <td>{{ contact.createdAt | date:'dd MMM y h:mm a' }}</td>
+             
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-primary icon-btn btn-xs" type="button"
+                          (click)="doAction('view',contact )">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <!-- <button class="btn btn-warning icon-btn btn-xs" type="button"
+                          (click)="doAction('edit', contact)">
+                    <i class="fa fa-pencil"></i>
+                  </button> -->
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="categories?.length == 0">
+              <td colspan="6" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

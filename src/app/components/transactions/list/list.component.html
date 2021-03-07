@@ -1,0 +1,101 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Transactions'">
+  <button class="btn btn-link" type="button" (click)="toggleAdvanceSearch()">
+    Advance Search
+  </button>
+</app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form (ngSubmit)="customFilter()" [@slideInOut]="animationState">
+          <div class="row">
+            <div class="col-md-6 col-lg-4">
+              <div class="form-group">
+                <label>Transaction Date (From - To)</label>
+                <div *ngIf="filters.date">
+                  <app-daterange (fromDateChanged)="setDate('from', $event)"
+                                 (toDateChanged)="setDate('to', $event)"></app-daterange>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix">
+            <button class="btn btn-primary float-right" type="submit">Submit</button>
+            <button class="btn btn-outline-secondary mr-2 float-right" type="reset" (click)="clearFilters()">Clear Filters</button>
+          </div>
+
+          <hr/>
+        </form>
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>id</th>
+              <th>Job Name</th>
+              <th>Payer</th>
+              <th>Payee</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let transaction of transactions; let i = index">
+              <td>
+                <a [routerLink]="'/transactions/detail/' + transaction.id" class="dashed-link">
+                  {{ transaction.transaction_id }}
+                </a>
+              </td>
+              <td>
+                <div *ngIf="transaction.job">
+                  <a [routerLink]="'/projects/detail/' + transaction.job.id" class="dashed-link">
+                    {{ transaction.job.title ? transaction.job.title : "&lt;No-title&gt;" }}
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div *ngIf="transaction.payer">
+                  <a [routerLink]="'/users/detail/' + transaction.payer.id" class="dashed-link">
+                    {{ transaction.payer.first_name + " " + transaction.payer.last_name }}
+                  </a>
+                </div>
+                <div *ngIf="!transaction.payer">BidSquad</div>
+              </td>
+              <td>
+                <div *ngIf="transaction.payee">
+                  <a [routerLink]="'/users/detail/' + transaction.payee.id" class="dashed-link">
+                    {{ transaction.payee.first_name + " " + transaction.payee.last_name }}
+                  </a>
+                </div>
+                <div *ngIf="!transaction.payee">BidSquad</div>
+              </td>
+              <td><app-datetime [date]="transaction.created_at" [includeTime]="true"></app-datetime></td>
+              <td>
+                <small style="font-size: 0.7rem; font-weight: 600;">Total:</small>
+                &nbsp;${{ transaction.amount ? transaction.amount : 0 }}<br/>
+                <small style="font-size: 0.7rem; font-weight: 600;">For Provider:</small>
+                &nbsp;${{ transaction.amount_for_provider ? transaction.amount_for_provider : 0 }}<br/>
+                <small style="font-size: 0.7rem; font-weight: 600;">For Admin:</small>
+                &nbsp;${{ transaction.admin_commission_amount ? transaction.admin_commission_amount : 0 }}<br/>
+              </td>
+              <td><app-status-badge [status]="transaction.status"></app-status-badge></td>
+            </tr>
+            <tr *ngIf="transactions && transactions.length <= 0">
+              <td colspan="8" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

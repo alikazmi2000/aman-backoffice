@@ -1,0 +1,66 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="title + ' Category'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Please fill the form below to {{title}} a category</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form class="forms-sample" [formGroup]="form" autocomplete="off">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="categoryName">Category Name</label>
+                <input type="text" class="form-control" id="categoryName" (input)="onSearchChange($event.target.value)" formControlName="name" placeholder="" required>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('name','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="parentCategory">Parent Category</label>
+                <select formControlName="name" #mySelect (change)='changeCategory(mySelect.value)' [value]='parent' id="parentCategory" class="form-control">
+                  <option [ngValue]="null">None</option>
+                  
+                  <choose-category-list [categories]="allCategories" [categoryParentId]="0" remove-host></choose-category-list>
+                </select>
+               
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('name','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+          
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select formControlName="status" id="status" class="form-control">
+                  <option *ngFor="let item of statusItems" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('status','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+          
+        
+          
+          </div>
+          <button class="btn btn-primary mr-2" (click)="submit()">
+            <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+          </button>
+          <button class="btn btn-light" routerLink="/categories/list">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

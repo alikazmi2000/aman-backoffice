@@ -1,0 +1,69 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Region Details'"></app-page-header>
+
+<div class="row">
+  <div class="col-12">
+    <div class="kt-portlet">
+      <div class="kt-form kt-form--label-right">
+        <div class="kt-portlet__body">
+
+          <app-alert type="success" [message]="successMessage"></app-alert>
+          <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Name:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{region.name}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">City:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{region.city}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">State:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{region.state}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Country:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{region.country}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Zip Code:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{region.zip_code}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Status:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext pt-0">
+                <span class="kt-badge kt-badge--inline kt-badge--success kt-badge--bold">
+                  {{region.status}}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="kt-portlet__foot">
+          <div class="kt-form__actions kt-space-between">
+            <button type="button" class="btn btn-label-brand btn-sm btn-bold" [routerLink]="'/regions/edit/'+region.id">
+              Edit Region
+            </button>
+
+            <button type="button" class="btn btn-clean btn-sm btn-bold" routerLink="/regions/list">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

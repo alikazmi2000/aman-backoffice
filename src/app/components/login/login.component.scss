@@ -1,0 +1,42 @@
+@import "../../../assets/custom/css/login.css";
+
+html, body {
+  height: 100%;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.kt-login {
+  height: 100%;
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  // add extra right padding when displaying spinner in button
+  .kt-spinner {
+    padding-right: 3rem !important;
+  }
+}
+
+.kt-login.kt-login--v1 .kt-login__aside .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-grid--ver {
+  margin-top: 165px;
+}
+
+@media screen and (max-width: 768px) {
+  .kt-login.kt-login--v1 .kt-login__aside .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-grid--ver {
+    margin-top: 0;
+  }
+  .kt-login.kt-login--v1 .kt-login__aside .kt-login__title {
+    font-size: 1.2rem;
+  }
+  .kt-login.kt-login--v1 .kt-login__aside .kt-login__subtitle {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .kt-login.kt-login--v1 .kt-login__aside .kt-login__logo {
+    margin-bottom: 0;
+  }
+}

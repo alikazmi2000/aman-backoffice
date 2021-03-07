@@ -1,0 +1,55 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Details'"></app-page-header>
+<div class="row">
+  <div class="col-12">
+    <div class="kt-portlet">
+      <div class="kt-form kt-form--label-right">
+        <div class="kt-portlet__body">
+
+          <app-alert type="success" [message]="successMessage"></app-alert>
+          <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Name:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{detail.name}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Email:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{detail.email}}</span>
+
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Phone:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{detail.phone}}</span>
+
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Message:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{detail.message}}</span>
+
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Date:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">
+                <app-datetime [date]="detail.createdAt" [includeTime]="true"></app-datetime>
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

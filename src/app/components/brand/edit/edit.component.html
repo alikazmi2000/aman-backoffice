@@ -1,0 +1,102 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="title + ' Brand'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Please fill the form below to add a brand</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form class="forms-sample" [formGroup]="form" autocomplete="off">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="brandName">Brand Name</label>
+                <input type="text" class="form-control" id="brandName" formControlName="name" placeholder="">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('name','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="status">Status</label>
+                <select formControlName="status" id="status" class="form-control">
+                  <option *ngFor="let item of statusItems" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('status','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Brand Picture</label><br />
+                <div class="row">
+                  <div class="col-md-6">
+                    <!-- <input type="file" ng2FileSelect (change)="onPictureFileChanged($event)" [uploader]="uploader" /> -->
+                    <input type="file" id="fileupload" #fileInput ng2FileSelect  [uploader]="uploader" (change)="fileInput.value=''"
+                    multiple />
+                    <!-- <input type="file" (change)="onPictureFileChanged($event)"> -->
+                  </div>
+                  <div class="col-md-6">
+                    <!-- <div *ngIf="user.profile_picture && !(profileUploaded && profileUploaded.url)">
+                      <img [src]="user.profile_picture" width="100" alt="Profile Picture" />
+                    </div>
+                    <div *ngIf="profileUploaded && profileUploaded.url">
+                      <img [src]="profileUploaded.url" width="100" alt="Profile Picture" />
+                    </div> -->
+                    
+                    <img *ngIf="edit && src && old_image" [src]="src.src" width="100" alt="Brand Picture" />
+                    
+                    <div class="file" *ngFor="let response of responses; let i = index">
+                      <!-- <h3>{{response.file.name}}</h3> -->
+                      <!-- <button class="delete-image" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">Delete image</button> -->
+                      <div class="status" *ngIf="!response.status">
+                        Uploading... {{response.progress}}%
+                        <div *ngIf="!response.status">In progress</div>
+                        <!-- <div class="status-code" *ngIf="response.status">Upload completed with status code {{response.status}}</div> -->
+                      </div>
+                      <div *ngIf="!response.status" class="progress-bar">
+                        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                     
+
+                      <img *ngIf="response.data.url" [src]="response.data.url" width="100" alt="Brand Picture" />
+
+                      <!-- <div class="info">
+                        <table>
+                          <tr *ngFor="let property of getFileProperties(response.data)">
+                            <td> {{ property.key }} </td>
+                            <td> {{ property.value | json}} </td>
+                          </tr>
+                        </table>
+                      </div> -->
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          <button class="btn btn-primary mr-2" (click)="submit()">
+            <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+          </button>
+          <button class="btn btn-light" routerLink="/brand/list">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

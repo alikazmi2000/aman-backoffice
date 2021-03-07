@@ -1,0 +1,476 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="title + ' Product'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Please fill the form below to add a product</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form class="forms-sample" [formGroup]="form" autocomplete="off">
+          <div class="row">
+
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="name">Product Name</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('name','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="short_description">Product Short Description</label>
+                    <ckeditor tagName="textarea" [editor]="Editor" id="short_description" formControlName="short_description" data=""></ckeditor>
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('short_description','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <ckeditor tagName="textarea" [editor]="Editor" id="description" formControlName="description" data=""></ckeditor>
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('description','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+
+                
+
+              </div>
+            </div>
+            <div class="col-md-4">
+
+
+              <div class="col-md-12">
+
+                <div class="card">
+                  <h5 class="card-header">Status</h5>
+                  <div class="card-body">
+                
+                    <select formControlName="status" style="width: 100%;">
+                      <option value="publish">Publish</option>
+                      <option value="draft">Draft</option>
+                    </select>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+
+                <div class="card">
+                  <h5 class="card-header">Product Categories</h5>
+                  <div class="card-body">
+                
+                    <div class="form-group">
+                      <div style="overflow-y: scroll;height:250px">
+                      <choose-category-checkbox-list [categories]="allCategories" [categoryParentId]="0" (change)="onCheckboxChangeCategory($event)" remove-host></choose-category-checkbox-list>
+                    </div>
+                      <div class="invalid-feedback d-block" *ngIf="isControlHasError('categories','required')">
+                        {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+
+
+                <div class="card">
+                  <h5 class="card-header">Brands</h5>
+                  <div class="card-body">
+                
+                   
+                <div class="form-group">
+                  
+                  <div style="overflow-y: scroll;height:250px">
+                    <div class="form-check" *ngFor="let brand of allBrands">
+                      <input class="form-check-input" *ngIf="brand.checked"  (change)="onCheckboxChange($event)"  type="checkbox" [value]="brand._id" id="defaultCheck1" checked>
+
+                      <input class="form-check-input" *ngIf="!brand.checked"  (change)="onCheckboxChange($event)"  type="checkbox" [value]="brand._id" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        {{brand.name}}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback d-block" *ngIf="isControlHasError('brands','required')">
+                    {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                  </div>
+                </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="col-md-12">
+
+
+              <div class="card">
+                <h5 class="card-header">Product Data Type &nbsp;
+
+
+                  <select (change)="onChangeProduct($event.target.value)" formControlName="type">
+                    <option value="simple">Simple</option>
+                    <!-- <option value="variable">Variable</option> -->
+                  </select>
+
+                </h5>
+                <div class="card-body">
+
+                  <div class="row">
+                    <div class="col-md-3" *ngIf="!variationproductType">
+                      <!-- <div class="form-group">
+                        <label for="type">Product Type</label>
+                        <select *ngIf="!edit" formControlName="type" id="type" class="form-control">
+                          <option value="simple">Simple</option>
+                        </select>
+                      </div> -->
+                      <div class="form-group" >
+                        <label for="name">Price $</label>
+                        <input type="text" class="form-control" id="price" formControlName="price" placeholder="">
+                        <div class="invalid-feedback d-block" *ngIf="isControlHasError('price','required')">
+                          {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                        </div>
+                        <p class="invalid-feedback d-block" *ngIf="form.controls.price.errors?.number">Please enter correct price</p>
+                        <p class="invalid-feedback d-block" *ngIf="form.controls.price.errors?.min">Price should be greater than 0</p>
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3" *ngIf="!edit">
+
+  
+                      <div class="form-group">
+                        <label for="name">SKU</label>
+                        <input type="text" class="form-control" id="sku" formControlName="sku" placeholder="">
+                        <div class="invalid-feedback d-block" *ngIf="isControlHasError('sku','required')">
+                          {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-3 text-center" *ngIf="!variationproductType">
+                      <div class="form-group">
+                        <label for="name">Manage Stock</label><br>
+                        <input type="checkbox" formControlName="manage_stock" class="form-check-input" [checked]="defaultManageStock">                        
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3" *ngIf="!variationproductType">
+  
+
+
+                      <div class="form-group">
+                        <label for="name">Stock Quantity</label>
+                        <input type="text" class="form-control" id="stock_quantity" formControlName="stock_quantity" placeholder="">
+                        <div class="invalid-feedback d-block" *ngIf="isControlHasError('stock_quantity','required')">
+                          {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                        </div>
+                        <p class="invalid-feedback d-block" *ngIf="form.controls.stock_quantity.errors?.digits">Price should be greater & equal than 0</p>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="row">
+
+
+                    <div class="col-md-6" *ngIf="variationproductType">
+
+
+                      <div class="form-group">
+                        <label for="name">Attribute</label>
+                        <angular2-multiselect
+                          [ngModelOptions]="{standalone: true}"
+                          (onSelect)="onAttributeSelect($event)" 
+                          (onDeSelect)="onAttributeDeSelect($event)"
+                          [data]="attribute"
+                          [(ngModel)]="attributeSelectedDropdown"
+                          [settings]="dropdownSettings"
+                          name="attributes"></angular2-multiselect>
+                      </div>
+                      <p>Choose the attributes of this product and then input values of each attribute</p>
+
+                    </div>
+
+                    <div class="col-md-12" *ngIf="variationproductType">
+
+
+                      <div class="row" *ngFor="let attribute of attributeSelectedDropdown;index as i">
+                       
+                       <div class="col-md-2 text-center" style="
+                        margin-top: 0.6rem;
+                        font-size: medium;">
+                        <label for="name">{{ attribute.itemName }}</label>
+
+                       </div>
+                       <div class="col-md-10">
+
+                        <div class="form-group">
+                          <angular2-multiselect
+                          [ngModelOptions]="{standalone: true}"
+                          [data]="attribute.values"
+                          (onAddFilterNewItem)="onAddVariationItem($event,i)"
+                          [(ngModel)]="variationSelectedDropdown"
+                          (onDeSelect)="onVariationDeSelect($event)"
+                          (onSelect)="onVariationSelect($event)"
+                          [settings]="dropdownSettingsVariation"
+                          (onSelectAll)="onVariationSelectAll($event)" 
+                          (onDeSelectAll)="onVariationDeSelectAll($event)"
+                          >
+                        </angular2-multiselect>
+                        
+                        </div>
+
+                       </div>
+                      
+
+                      </div>
+
+                    
+                      <div class="row">
+
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>Variant Name</th>
+                              <th>Variant Price</th>
+                              <th>Manage Stock</th>
+                              <th>Quantity</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr
+                            
+                            
+                            *ngFor="let variation of t.controls; let i = index">
+                            <ng-container [formGroup]="variation">
+                              <td>{{variation.controls.attribute.value[0].option}}</td>
+                              <td>
+
+
+                                <input type="text" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': submitted && variation.controls.price.errors }" />
+                                <div *ngIf="submitted && variation.controls.price.errors" class="invalid-feedback">
+                                    <div *ngIf="variation.controls.price.errors.required">Price is required</div>
+                                </div>
+
+                              </td>
+                              <td class="text-center"><input type="checkbox" formControlName="manage_stock" class="form-check-input">
+                              </td>
+                              <td>
+
+                                <input type="text" formControlName="stock_quantity" class="form-control" [ngClass]="{ 'is-invalid': submitted && variation.controls.stock_quantity.errors }" />
+                                <div *ngIf="submitted && variation.controls.stock_quantity.errors" class="invalid-feedback">
+                                    <div *ngIf="variation.controls.stock_quantity.errors.required">Stock is required</div>
+                                </div>
+
+                              </td>
+                              </ng-container>
+                            </tr>
+
+                          </tbody>
+
+
+
+                          </table>
+
+
+
+
+                      </div>
+
+                       <!-- <div class="form-check">
+                        <input type="checkbox" formControlName="sync" class="form-check-input" id="sync">
+                        <label class="form-check-label" for="sync">Sync with Square</label>
+                      </div> -->
+  
+                    </div>
+                  </div>
+
+                  
+
+                </div>
+              </div>
+
+            </div>
+
+
+
+            
+          
+
+            <div class="col-md-12">
+
+
+              <div class="card">
+                <h5 class="card-header">Images</h5>
+                <div class="card-body">
+                  
+
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <!-- <input type="file" ng2FileSelect (change)="onPictureFileChanged($event)" [uploader]="uploader" /> -->
+                    <input type="file" id="fileupload" #fileInput ng2FileSelect  [uploader]="uploader" (change)="fileInput.value=''"
+                    multiple />
+                    <!-- <input type="file" (change)="onPictureFileChanged($event)"> -->
+                  </div>
+
+                  <br>
+                  <br>
+
+
+                  <div class="col-md-12">
+                   
+                    <div class="file" *ngFor="let response of responses; let i = index">
+                      <!-- <h3>{{response.file.name}}</h3> -->
+                      <!-- <button class="delete-image" *ngIf="!!response.data.delete_token" (click)="deleteImage(response.data, i)">Delete image</button> -->
+                      <div class="status" *ngIf="!response.status">
+                        Uploading... {{response.progress}}%
+                        <div *ngIf="!response.status">In progress</div>
+                        <!-- <div class="status-code" *ngIf="response.status">Upload completed with status code {{response.status}}</div> -->
+                      </div>
+                      <div *ngIf="!response.status" class="progress-bar">
+                        <div class="progress" role="progressbar" [style.width.%]="response.progress"></div>
+                      </div>
+                    
+                      <!-- <img src="http://res.cloudinary.com/dxe1zk5at/image/upload/v1593552383/brands/rujlfpoueznmbyjsebly.jpg" width="100" alt="Brand Picture" /> -->
+
+
+                      <!-- <div class="info">
+                        <table>
+                          <tr *ngFor="let property of getFileProperties(response.data)">
+                            <td> {{ property.key }} </td>
+                            <td> {{ property.value | json}} </td>
+                          </tr>
+                        </table>
+                      </div> -->
+                    </div>
+
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Link</th>
+                          <th>Feature</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        <!-- <tr *ngFor="let res of product.images; let i= index">
+
+                          <td><img [src]="res.src" width="100" alt="Brand Picture" /></td>
+                          <td>{{res.src}}</td>
+                          <td>
+
+                            <div class="radio">
+                              <input type="radio" id='feature_image' formControlName="feature_image" [value]="i" checked="checked">
+                          </div>
+
+                          </td>
+                          <td>
+                            <button class="btn btn-danger icon-btn btn-xs" (click)="deleteImage(response.data, i)" type="button">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </td>
+
+                        </tr>  -->
+
+
+                        <ng-container *ngIf="edit">
+                        <tr *ngFor="let response of editImages; let i = index">
+                          <td><img [src]="response.data.url" width="100" alt="Brand Picture" /></td>
+                          <td>{{response.data.url}}</td>
+                          <td>
+
+                            <div class="radio">
+                              <input type="radio" id='feature_image' formControlName="feature_image" [value]="i+100">
+                          </div>
+
+                          </td>
+                          <td>
+                            <button class="btn btn-danger icon-btn btn-xs" type="button"  (click)="deleteImage(response.data, i)">
+                              <i class="fa fa-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        </ng-container>
+                        
+
+                        <ng-container *ngIf="!edit">
+                          <tr *ngFor="let response of responses; let i = index">
+                            <td><img [src]="response.data.url" width="100" alt="Brand Picture" /></td>
+                            <td>{{response.data.url}}</td>
+                            <td>
+  
+                              <div class="radio">
+                                <input type="radio" id='feature_image' formControlName="feature_image" [value]="i+100">
+                            </div>
+  
+                            </td>
+                            <td>
+                              <button class="btn btn-danger icon-btn btn-xs" type="button"  (click)="deleteImage(response.data, i)">
+                                <i class="fa fa-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                          </ng-container>
+
+
+                        
+                      </tbody>
+                    </table>
+
+                  
+                  </div>
+
+
+
+                </div>
+              </div>
+
+
+
+
+                </div>
+              </div>
+
+            </div>
+          
+          </div>
+          <button class="btn btn-primary mr-2" (click)="submit()">
+            <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+          </button>
+          <button class="btn btn-light" routerLink="/brand/list">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

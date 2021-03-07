@@ -1,0 +1,205 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Orders'"></app-page-header>
+<app-alert type="success" [message]="successMessage"></app-alert>
+<app-alert type="danger" [message]="errorMessage"></app-alert>
+<div class="row">
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">General</h4>
+        <div class="address">
+          <p><strong>Date Created:</strong><br>
+            {{ detail?.date_created | date:'dd MMM y' }}
+           </p>
+
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select (change)="onStatusChanged($event.target.value)" class="form-control">
+                <option *ngFor="let item of statusItems" [selected]="item.value == detail?.status" [value]="item.value">
+                  {{item.title}}
+                </option>
+              </select>
+            </div>
+  
+
+              <p *ngIf="!detail?.customer_id"><strong>Customer:</strong><br>
+                Guest
+               </p>
+
+
+               <button class="btn btn-primary mr-2" (click)="submit()">
+                <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Update
+              </button>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Billing</h4>
+        <div class="address">
+          <p>{{ detail?.billing.first_name }} {{ detail?.billing.last_name }}<br>
+            {{detail?.billing.address}}<br>
+            {{detail?.billing.city}}, {{detail?.billing.state.name}} {{detail?.billing.zip_code}}</p>
+            <p><strong>Email address:</strong><br>
+               <a href="mailto:">{{ detail?.billing.email }}</a>
+              </p>
+              <p><strong>Phone:</strong><br>
+                <a href="tel:8049047693">{{ detail?.billing.phone }}</a>
+              </p>				
+            		</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Shipping</h4>
+        <div class="address">
+          <p>{{ detail?.shipping.first_name }} {{ detail?.shipping.last_name }}<br>
+            {{detail?.shipping.address}}<br>
+            {{detail?.shipping.city}}, {{detail?.shipping.state.name}} {{detail?.shipping.zip_code}}</p>	
+            		</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-header [title]="'Items'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card card-custom overflow-hidden">
+      <div class="card-body">
+
+        <div class="card-body p-0">
+          <!-- begin: Invoice-->
+  
+          <!-- begin: Invoice body-->
+          <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+              <div class="col-md-9">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th class="pl-0 font-weight-bold text-muted  text-uppercase">Item</th>
+                                  <th class="text-right font-weight-bold text-muted text-uppercase">Cost</th>
+                                  <th class="text-right font-weight-bold text-muted text-uppercase">Qty</th>
+                                  <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Total</th>
+                                  <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">VA Tax</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr class="font-weight-boldest" *ngFor="let item of detail?.line_items" >
+                                  <td class="pl-0 pt-7">{{item.name}}</td>
+                                  <td class="text-right pt-7">${{item.price}}</td>
+                                  <td class="text-right pt-7">{{item.quantity}}</td>
+                                  <td class="text-danger pr-0 pt-7 text-right">${{item.subtotal | number : '1.2-2'}}</td>
+                                  <td class="text-danger pr-0 pt-7 text-right">${{item.total_tax | number : '1.2-2'}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <!-- end: Invoice body-->
+  
+          <!-- begin: Invoice footer-->
+          <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+              <div class="col-md-9">
+                <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <div class="table-responsive">
+                    <table class="table">
+                       
+                        <tbody>
+                            <tr class="font-weight-boldest">
+                            
+                                <th width="50%" class="pl-0 pt-7">Items Subtotal:		</th>
+                                <td class="text-danger pr-0 pt-7 text-right">${{detail?.invoice.subtotal | number : '1.2-2'}}</td>
+                          
+                            </tr>
+  
+                            <tr class="font-weight-boldest">
+                              <th width="50%"  class="pl-0 pt-7">Shipping:		</th>
+                              <td class="text-danger pr-0 pt-7 text-right">${{detail?.invoice.shipping_fee | number : '1.2-2'}}</td>
+                        
+                          </tr>
+  
+                          <tr class="font-weight-boldest">
+                            <th width="50%"  class="pl-0 pt-7">VA Tax:		</th>
+                            <td class="text-danger pr-0 pt-7 text-right">${{detail?.invoice.total_tax | number : '1.2-2'}}</td>
+                      
+                        </tr>
+  
+                        <tr class="font-weight-boldest">
+                          <th width="50%"  class="pl-0 pt-7">Order Total:		</th>
+                          <td class="text-danger pr-0 pt-7 text-right">${{detail?.invoice.grand_total | number : '1.2-2'}}</td>
+                    
+                      </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+              </div>
+               
+              </div>
+          </div>
+          <hr>
+          <!-- <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+            <div class="col-md-9">
+              <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <div class="table-responsive">
+                  <table class="table">
+                     
+                      <tbody>
+                          <tr class="font-weight-boldest">
+                          
+                              <th width="50%" class="pl-0 pt-7">Paid By Customer:		</th>
+                              <td class="text-danger pr-0 pt-7 text-right">$1.0</td>
+                        
+                          </tr>
+
+                          <tr class="font-weight-boldest">
+                            <th width="50%"  class="pl-0 pt-7">PayPal Fee:		</th>
+                            <td class="text-danger pr-0 pt-7 text-right">$1.0</td>
+                      
+                        </tr>
+
+                        <tr class="font-weight-boldest">
+                          <th width="50%"  class="pl-0 pt-7"> PayPal Payout:		</th>
+                          <td class="text-danger pr-0 pt-7 text-right">$1.0</td>
+                    
+                      </tr>
+
+                         
+                      </tbody>
+                  </table>
+              </div>
+              </div>
+            </div>
+             
+            </div>
+        </div> -->
+          
+          <!-- end: Invoice footer-->
+  
+  
+          <!-- end: Invoice-->
+      </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+

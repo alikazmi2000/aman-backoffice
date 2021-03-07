@@ -1,0 +1,7 @@
+<ng-container *ngFor="let category of mainCategories">
+  <option (click)="changeCategory($event)" [value]="category.id">{{sub}} {{category.name}}</option>
+
+   <ng-container *ngIf="category.hasSubCategory" class="sub-category">
+      <choose-category-list [categories]="categories" sub="{{'&nbsp;&nbsp;&nbsp; ' + sub}}" [categoryParentId]="category.id" (change)="changeCategory($event)" remove-host ></choose-category-list>
+  </ng-container>
+</ng-container>

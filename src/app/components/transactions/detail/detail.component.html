@@ -1,0 +1,120 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Transaction Users'"></app-page-header>
+
+<div class="row">
+  <div class="col-lg-6 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Payer</h4>
+        <div *ngIf="transaction.payer">
+          <app-user [user]="transaction.payer" [full]="false"></app-user>
+        </div>
+        <div *ngIf="!transaction.payer">Amount sent by BidSquad</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 grid-margin">
+    <div class="card">
+      <div class="card-body" style="min-height: 260px;">
+        <h4 class="card-title">Payee</h4>
+        <div *ngIf="transaction.payee">
+          <app-user [user]="transaction.payee" [full]="false"></app-user>
+        </div>
+        <div *ngIf="!transaction.payee">Amount sent to BidSquad</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-page-header [title]="'Transaction Details'"></app-page-header>
+<div class="row">
+  <div class="col-12">
+    <div class="kt-portlet">
+      <div class="kt-form kt-form--label-right">
+        <div class="kt-portlet__body">
+
+          <app-alert type="success" [message]="successMessage"></app-alert>
+          <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Transaction Id:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">{{transaction.transaction_id}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Payer Name:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1" *ngIf="transaction.payer">
+                <a [routerLink]="'/users/detail/' + transaction.payer.id" class="dashed-link">
+                  {{ transaction.payer.first_name + " " + transaction.payer.last_name }}
+                </a>
+              </span>
+              <div *ngIf="!transaction.payer">
+                BidSquad
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Payee Name:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1" *ngIf="transaction.payee">
+                <a [routerLink]="'/users/detail/' + transaction.payee.id" class="dashed-link">
+                  {{ transaction.payee.first_name + " " + transaction.payee.last_name }}
+                </a>
+              </span>
+              <div *ngIf="!transaction.payee">
+                BidSquad
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Job Name:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1" *ngIf="transaction.job">
+                <a [routerLink]="'/projects/detail/' + transaction.job.id" class="dashed-link">
+                  {{ transaction.job.title ? transaction.job.title : "&lt;No-title&gt;" }}
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Date:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">
+                <app-datetime [date]="transaction.created_at" [includeTime]="true"></app-datetime>
+              </span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Total Amount:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">$ {{transaction.amount}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Amount for the Provider:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">$ {{transaction.amount_for_provider}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-xs row">
+            <label class="col-2 col-form-label">Admin Commission:</label>
+            <div class="col-9">
+              <span class="form-control-plaintext kt-font-bolder pt-1">$ {{transaction.admin_commission_amount}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="kt-portlet__foot">
+          <div class="kt-form__actions kt-space-between">
+            <button type="button" class="btn btn-clean btn-sm btn-bold" routerLink="/transactions/list">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

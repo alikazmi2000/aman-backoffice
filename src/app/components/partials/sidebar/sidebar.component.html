@@ -1,0 +1,137 @@
+<nav class="sidebar sidebar-offcanvas sidebar-wrapper" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <div class="nav-link">
+        <div class="user-wrapper">
+          <div class="profile-image">
+            <img src="{{user.profile_picture ? user.profile_picture : 'assets/custom/images/user-icon.svg' }}"
+                 alt="profile image">
+          </div>
+          <div class="text-wrapper">
+            <p class="profile-name">{{user.first_name}} {{user.last_name}}</p>
+            <div>
+              <small class="designation text-muted">{{user.role}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <i class="menu-icon mdi mdi-television"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/service-provider/list" [queryParams]="{ role : 'provider' }" routerLinkActive="active">
+        <i class="menu-icon mdi mdi-store"></i>
+        Service Providers
+      </a>
+    </li> -->
+    <!-- <li class="nav-item sidebar-dropdown">
+      <a class="nav-link" href="javascript:void(0)">
+        <i class="menu-icon fa fa-list-alt"></i>
+        <span class="menu-title">Catalog</span>
+      </a>
+      <div class="sidebar-submenu">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/categories/list" routerLinkActive="active">Category</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/brand/list" routerLinkActive="active">Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/products/list"  routerLinkActive="active">Products</a>
+          </li>
+        </ul>
+      </div>
+    </li> -->
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/categories/list"  routerLinkActive="active">
+        <i class="menu-icon fa fa-list-alt"></i>
+        Category
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/brand/list"  routerLinkActive="active">
+        <i class="menu-icon fa fa-th"></i>
+        Brands
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/products/list"  routerLinkActive="active">
+        <i class="menu-icon  mdi mdi-plus-one"></i>
+        Products
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/order/list"  routerLinkActive="active">
+        <i class="menu-icon fa fa-dollar"></i>
+        Orders
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/customer/list"  routerLinkActive="active">
+        <i class="menu-icon fa fa-user-o"></i>
+        Customers 
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/contact/list"  routerLinkActive="active">
+        <i class="menu-icon fa fa-th"></i>
+        Contacts US 
+      </a>
+    </li>
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/users/list" [queryParams]="{ role : 'tech' }" routerLinkActive="active">
+        <i class="menu-icon fa fa-user-o"></i>
+        Techs
+      </a>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/regions/list" routerLinkActive="active">
+        <i class="menu-icon fa fa-map-marker"></i>
+        <span class="menu-title">Regions</span>
+      </a>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/projects/list" routerLinkActive="active">
+        <i class="menu-icon fa fa-th"></i>
+        <span class="menu-title">Projects</span>
+      </a>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/appointments/list" routerLinkActive="active">
+        <i class="menu-icon fa fa-clock-o"></i>
+        <span class="menu-title">Appointments</span>
+      </a>
+    </li> -->
+    <!-- <li class="nav-item">
+      <a class="nav-link" routerLink="/transactions/list" routerLinkActive="active">
+        <i class="menu-icon fa fa-dollar"></i>
+        <span class="menu-title">Transactions</span>
+      </a>
+    </li> -->
+    <!-- <li class="nav-item sidebar-dropdown">
+      <a class="nav-link" routerLink="#">
+        <i class="menu-icon fa fa-file-text"></i>
+        <span class="menu-title">Templates</span>
+      </a>
+      <div class="sidebar-submenu">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/questions/list" routerLinkActive="active">Questionnaires</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contracts/list" routerLinkActive="active">Contracts</a>
+          </li>
+        </ul>
+      </div>
+    </li> -->
+  </ul>
+</nav>

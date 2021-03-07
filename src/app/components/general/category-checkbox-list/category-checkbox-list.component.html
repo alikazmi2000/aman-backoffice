@@ -1,0 +1,15 @@
+<ng-container *ngFor="let category of mainCategories">
+<div class="form-check" [style.margin-left.px]="sub">
+    <input *ngIf="category.checked" class="form-check-input" formControlName="categories" type="checkbox" [value]="category.id" id="defaultCheck2" checked>
+    <input *ngIf="!category.checked" class="form-check-input" formControlName="categories" type="checkbox" [value]="category.id" id="defaultCheck2">
+
+    <label class="form-check-label" for="defaultCheck2">
+      {{category.name}}
+    </label>
+  </div>
+  <!-- <option (click)="changeCategory($event)" value="category.id">{{sub}} {{category.name}}</option> -->
+
+   <ng-container *ngIf="category.hasSubCategory" class="sub-category">
+      <choose-category-checkbox-list [categories]="categories" sub="{{18*1   +sub*1}}" [categoryParentId]="category.id" (change)="changeCategory($event)" remove-host ></choose-category-checkbox-list>
+  </ng-container>
+</ng-container>

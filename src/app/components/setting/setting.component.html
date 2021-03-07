@@ -1,0 +1,146 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<div class="row">
+  <div class="col-lg-12">
+    <app-page-header [title]="'Edit Settings'"></app-page-header>
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Please update settings.</h4>
+
+            <app-alert type="success" [message]="successMessage"></app-alert>
+            <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+            <form class="forms-sample" [formGroup]="form" autocomplete="off">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <select formControlName="currency" id="currency" class="form-control">
+                      <option value="">Select Currency</option>
+                      <option value="usd">usd (US dollar)</option>
+                    </select>
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('currency','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="currencySymbol">Currency Symbol</label>
+                    <select formControlName="currencySymbol" id="currencySymbol" class="form-control">
+                      <option value="">Select Currency Symbol</option>
+                      <option value="$">$ (dollar)</option>
+                    </select>
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('currencySymbol','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="propertiesLimit">Properties Limit</label>
+                    <input type="number" class="form-control" id="propertiesLimit" formControlName="propertiesLimit" placeholder="Properties Limit">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('propertiesLimit','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="cardsLimit">Cards Limit</label>
+                    <input type="number" class="form-control" id="cardsLimit" formControlName="cardsLimit" placeholder="Cards Limit">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('cardsLimit','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="bankAccountsLimit">BankAccounts Limit</label>
+                    <input type="number" class="form-control" id="bankAccountsLimit" formControlName="bankAccountsLimit" placeholder="BankAccounts Limit">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('bankAccountsLimit','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="becomeAProviderUrl">Become a Provider Url</label>
+                    <input type="text" class="form-control" id="becomeAProviderUrl" formControlName="becomeAProviderUrl" placeholder="Become a Provider Url">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('becomeAProviderUrl','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="becomeAManagerUrl">Become a Manager Url</label>
+                    <input type="text" class="form-control" id="becomeAManagerUrl" formControlName="becomeAManagerUrl" placeholder="Become a Manager Url">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('becomeAManagerUrl','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="defaultDesignerEmail">Default Designer Email</label>
+                    <input type="text" class="form-control" id="defaultDesignerEmail" formControlName="defaultDesignerEmail" placeholder="Default Designer Email">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('defaultDesignerEmail','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="defaultBuyerEmail">Default Buyer Email</label>
+                    <input type="text" class="form-control" id="defaultBuyerEmail" formControlName="defaultBuyerEmail" placeholder="Default Buyer Email">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('defaultBuyerEmail','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="termsAndConditionUrl">Terms and Condition Url</label>
+                    <input type="text" class="form-control" id="termsAndConditionUrl" formControlName="termsAndConditionUrl" placeholder="Terms and Condition Url">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('termsAndConditionUrl','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="privacyPolicyUrl">Privacy Policy Url</label>
+                    <input type="text" class="form-control" id="privacyPolicyUrl" formControlName="privacyPolicyUrl" placeholder="Privacy Policy Url">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('privacyPolicyUrl','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="stripeTestPayment">Stripe Test Payment</label><br/>
+                    <label class="switch">
+                      <input type="checkbox" id="stripeTestPayment" formControlName="stripeTestPayment">
+                      <span class="slider round"></span>
+                    </label>
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('stripeTestPayment','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="btn btn-primary mr-2" (click)="submit()">
+                <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+              </button>
+              <button class="btn btn-light" routerLink="/dashboard">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

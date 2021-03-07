@@ -1,0 +1,188 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="title + ' User'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Basic Details</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form class="forms-sample" [formGroup]="form" autocomplete="off">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="userType">User Role</label>
+                <select *ngIf="!edit" formControlName="userType" id="userType" class="form-control" [(ngModel)]="userRole">
+                  <option [ngValue]="null">Select Role</option>
+                  <option *ngFor="let role of roles" [value]="role.value">
+                    {{role.title}}
+                  </option>
+                </select>
+                <div *ngIf="edit"><strong class="text-capitalize">{{user.role}}</strong></div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('userType','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="First Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('firstName','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Last Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('lastName','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phoneNumber">Contact Number</label>
+                <div class="row">
+                  <div class="col-3 pr-0">
+                    <select formControlName="countryCode" id="countryCode" class="form-control">
+                      <option *ngFor="let item of countryCodes" [value]="item.value">
+                        {{item.title}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-9">
+                    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Contact Number">
+                    <div class="invalid-feedback d-block" *ngIf="isControlHasError('phoneNumber','required')">
+                      {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('email','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('email','email')">
+                  {{ 'AUTH.VALIDATION.INVALID_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="password" *ngIf="!edit">Password</label>
+                <label for="password" *ngIf="edit">Password - Optional [<strong>Note:</strong> Leave empty for no update.]</label>
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('password','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" *ngIf="edit">
+                <label for="status">Status</label>
+                <select formControlName="status" id="status" class="form-control">
+                  <option *ngFor="let item of statusItems" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('status','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12" *ngIf="userRole && userRole !== 'customer'">
+              <h4 class="card-title mt-4">Other Details</h4>
+            </div>
+            <div class="col-md-12" *ngIf="userRole && userRole === 'provider'">
+              <div class="form-group">
+                <label for="status">Categories (Multiple)</label>
+                <angular2-multiselect
+                  [ngModelOptions]="{standalone: true}"
+                  [data]="categoriesDropdown"
+                  [(ngModel)]="categoriesSelectedDropdown"
+                  [settings]="dropdownSettings"
+                  name="categories"></angular2-multiselect>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="userRole && userRole !== 'customer' && edit">
+              <div class="form-group">
+                <label for="serviceArea">Region / Service Area</label>
+                <div *ngIf="user.service_areas">
+                  <strong *ngFor="let item of user.service_areas; let i = index;" [ngClass]="{'text-capitalize': i == 0, 'pl-1 text-capitalize':i > 0 }">{{item.zip_code}}</strong>
+                </div>
+                <div *ngIf="!user.service_areas ">
+                  <span class='text-capitalize'>Not Available</span>
+                </div>
+               </div>
+            </div>
+            <div class="col-md-6" *ngIf="userRole && userRole !== 'customer'">
+              <div class="form-group">
+                <label for="lastName">Company Name</label>
+                <input type="text" class="form-control" id="companyName" formControlName="companyName" placeholder="Company Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('companyName','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12" *ngIf="userRole && userRole !== 'customer'">
+              <h4 class="card-title mt-4">Upload Documents</h4>
+              <div class="row">
+                <div class="col-lg-3" *ngFor="let item of documents; let i=index">
+                  <div class="form-group text-center">
+                    <label>{{item.title}}</label><br/>
+                    <div class="border" style="min-height: 200px">
+                      <img src="assets/images/file-icons/256/004-folder-1.png" width="100%" *ngIf="!item.image"
+                           (click)="uploader.click()" style="cursor: pointer" />
+                      <img [src]="item.image" width="100%" *ngIf="item.image" (click)="uploader.click()"
+                           style="cursor: pointer" />
+                    </div>
+                    <input type="file" #uploader (change)="onFileChanged($event)" [attr.data-index]="i" hidden>
+                    <label>Expiry of {{item.title}}</label><br/>
+                    <input type="date" [value]="item.expiry" class="form-control" formControlName="expiry" (change)="onExpiryChanged($event)" placeholder="Expiry" [attr.data-index]="i">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Profile Picture</label><br />
+                <div class="row">
+                  <div class="col-md-6">
+                    <input type="file" (change)="onProfilePictureFileChanged($event)">
+                  </div>
+                  <div class="col-md-6">
+                    <div *ngIf="user.profile_picture && !(profileUploaded && profileUploaded.url)">
+                      <img [src]="user.profile_picture" width="100" alt="Profile Picture" />
+                    </div>
+                    <div *ngIf="profileUploaded && profileUploaded.url">
+                      <img [src]="profileUploaded.url" width="100" alt="Profile Picture" />
+                    </div>
+                  </div>
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('profilePicture','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button (click)="submit()" class="btn btn-primary mr-2">
+            <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+          </button>
+          <button class="btn btn-light" routerLink="/users/list">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

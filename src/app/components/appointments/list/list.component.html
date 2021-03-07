@@ -1,0 +1,68 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="'Appointments'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <div class="table-responsive- datatable-wrapper">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Project</th>
+              <th>Customer</th>
+              <th>Tech</th>
+              <th>Appointment</th>
+              <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let appointment of appointments; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <div *ngIf="appointment.job">
+                  <a [routerLink]="'/projects/detail/' + appointment.job.id" class="dashed-link">
+                    {{ appointment.job.title ? appointment.job.title : "&lt;No-title&gt;" }}
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div *ngIf="appointment.job && appointment.job.requester">
+                  <a [routerLink]="'/users/detail/' + appointment.job.requester.id" class="dashed-link">
+                    {{ appointment.job.requester.first_name + " " + appointment.job.requester.last_name }}
+                  </a>
+                </div>
+                <div *ngIf="!appointment.job.requester">NA</div>
+              </td>
+              <td>
+                <div *ngIf="appointment.job && appointment.job.manager">
+                  <a [routerLink]="'/users/detail/' + appointment.job.manager.id" class="dashed-link">
+                    {{ appointment.job.manager.first_name + " " + appointment.job.manager.last_name }}
+                  </a>
+                </div>
+                <div *ngIf="!appointment.job.manager">NA</div>
+              </td>
+              <td>
+                <div *ngIf="appointment.appointment_time">
+                  <app-datetime [date]="appointment.appointment_time" [includeTime]="true"></app-datetime>
+                </div>
+                <div *ngIf="!appointment.appointment_time">NA</div>
+              </td>
+              <td><app-status-badge [status]="appointment.status"></app-status-badge></td>
+            </tr>
+            <tr *ngIf="appointments?.length == 0">
+              <td colspan="7" class="no-data-available">No data!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

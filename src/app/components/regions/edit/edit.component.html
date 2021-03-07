@@ -1,0 +1,130 @@
+<app-breadcrumb [breadcrumb]="breadcrumb"></app-breadcrumb>
+
+<app-page-header [title]="title + ' New Region'"></app-page-header>
+
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Please fill the form below to {{title}} a new region</h4>
+
+        <app-alert type="success" [message]="successMessage"></app-alert>
+        <app-alert type="danger" [message]="errorMessage"></app-alert>
+
+        <form class="forms-sample" [formGroup]="form" autocomplete="off">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Name">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('name','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" formControlName="city" placeholder="City">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('city','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="state">State</label>
+                <select formControlName="state" id="state" class="form-control">
+                  <option value="">Select State</option>
+                  <option *ngFor="let item of states" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('state','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="country">Country</label>
+                <select formControlName="country" id="country" class="form-control">
+                  <option value="">Select Country</option>
+                  <option *ngFor="let item of countries" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('country','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="zipCode">Zip Code</label>
+                <input type="text" class="form-control" id="zipCode" formControlName="zipCode" placeholder="Zip Code">
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('zipCode','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('zipCode','minlength')">
+                  Min Length Should be 5
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('zipCode','maxlength')">
+                  Max Length is 5
+                </div>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('zipCode','pattern')">
+                  Field should be numeric
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" *ngIf="edit">
+                <label for="status">Status</label>
+                <select formControlName="status" id="status" class="form-control">
+                  <option *ngFor="let item of statusItems" [value]="item.value">
+                    {{item.title}}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="isControlHasError('status','required')">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="techs">Techs</label>
+                <angular2-multiselect
+                [ngModelOptions]="{standalone: true}"
+                [data]="techList"
+                [(ngModel)]="techSelectedDropdown"
+                [settings]="dropdownSettings.tech"
+                name="techs"></angular2-multiselect>
+                <div class="invalid-feedback d-block" *ngIf="selectedDropDownError.tech">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="techs">Providers</label>
+                <angular2-multiselect
+                [ngModelOptions]="{standalone: true}"
+                [data]="providerList"
+                [(ngModel)]="providerSelectedDropdown"
+                [settings]="dropdownSettings.provider"
+                name="techs"></angular2-multiselect>
+                <div class="invalid-feedback d-block" *ngIf="selectedDropDownError.provider">
+                  {{ 'AUTH.VALIDATION.REQUIRED_FIELD' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary mr-2" (click)="submit()">
+            <i class="fa fa-spin fa-circle-o-notch" *ngIf="loading"></i> Submit
+          </button>
+          <button class="btn btn-light" routerLink="/regions/list">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

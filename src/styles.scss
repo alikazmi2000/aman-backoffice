@@ -1,0 +1,410 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import './assets/styles/variables';
+@import "../node_modules/compass-mixins/lib/compass";
+@import "../node_modules/compass-mixins/lib/animate";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/mdi/scss/materialdesignicons";
+@import "../node_modules/font-awesome/scss/font-awesome";
+@import "./assets/styles/fonts";
+@import "./assets/styles/functions";
+@import "./assets/styles/mixins/background";
+@import "./assets/styles/mixins/animation";
+@import "./assets/styles/mixins/badges";
+@import "./assets/styles/mixins/breadcrumbs";
+@import "./assets/styles/mixins/pagination";
+@import "./assets/styles/mixins/buttons";
+@import "./assets/styles/mixins/misc";
+@import "./assets/styles/mixins/color-functions";
+@import "./assets/styles/mixins/cards";
+@import "./assets/styles/mixins/tooltips";
+@import "./assets/styles/mixins/popovers";
+@import "./assets/styles/mixins/blockqoute";
+@import "./assets/styles/accordions";
+@import "./assets/styles/breadcrumbs";
+@import "./assets/styles/forms";
+@import "./assets/styles/icons";
+@import "./assets/styles/tables";
+@import "./assets/styles/buttons";
+@import "./assets/styles/badges";
+@import "./assets/styles/cards";
+@import "./assets/styles/typography";
+@import "./assets/styles/preview";
+@import "./assets/styles/lists";
+@import "./assets/styles/bootstrap-progress";
+@import "./assets/styles/bootstrap-alerts";
+@import "./assets/styles/tabs";
+@import "./assets/styles/dropdowns";
+@import "./assets/styles/pagination";
+@import "./assets/styles/popovers";
+@import "./assets/styles/modals";
+@import "./assets/styles/nav";
+@import "./assets/styles/reset";
+@import "./assets/styles/rating";
+@import "./assets/styles/layouts";
+@import "./assets/styles/tooltips";
+@import "./assets/styles/responsive";
+@import "./assets/styles/misc";
+@import "./assets/styles/utilities";
+@import "./assets/styles/demo";
+/* You can add global styles to this file, and also import other style files */
+
+.btn.btn-xs {
+  padding: 0.4rem 0.65rem;
+  font-size: 0.875rem;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 18px 30px;
+  white-space: inherit;
+  line-height: 1.8;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+  padding: 18px 30px;
+  border-bottom: 1px solid transparent;
+}
+
+.dataTables_wrapper .dataTables_processing {
+  top: 85px;
+  height: 90%;
+}
+
+.table-responsive.datatable-wrapper {
+  min-height: 250px;
+}
+
+.dataTables_filter input {
+  border: 1px solid #e2e2e2;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  padding: 0.56rem 0.75rem;
+  line-height: 14px;
+  height: calc(1.94rem + 2px);
+  color: #495057;
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border-radius: 2px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dataTables_length select {
+  border: 1px solid #e2e2e2;
+  height: 33px;
+  padding: 5px 5px 5px 15px;
+  margin: 0 5px 10px 5px;
+}
+
+table.dataTable.no-footer {
+  border-bottom-color: #f2f2f2;
+  margin-bottom: 20px;
+  width: 100% !important;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 10px 30px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  background: #308ee0;
+  border-color: #308ee0;
+  color: #ffffff !important;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+  color: #333333;
+  font-size: 12px;
+}
+
+.no-data-available {
+  text-align: center;
+}
+
+.dataTables_empty {
+  display: none;
+}
+
+table.dataTable tr.odd,
+table.dataTable tr.even {
+  display: none;
+}
+
+.dataTables_wrapper .dt-buttons {
+  margin-left: 15px;
+}
+
+.nav .nav-item.dropdown .navbar-dropdown .dropdown-item, .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item {
+  cursor: pointer;
+}
+
+.navbar-toggler {
+  color: #424964 !important;
+  display: inline-block;
+  float: right;
+  position: absolute;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer !important;
+}
+
+.navbar {
+  background: #fff !important;
+}
+
+.sidebar .nav:not(.sub-menu) > .nav-item:hover:not(.nav-profile) > .nav-link {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.sidebar .nav .nav-item .nav-link.active {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 991px) {
+  .navbar .navbar-brand-wrapper .brand-logo-mini img {
+    width: 200px !important;
+    margin-top: 15px !important;
+    margin-left: 30px !important;
+  }
+  .navbar.default-layout .navbar-brand-wrapper {
+    width: 75px !important;
+  }
+
+  .navbar .navbar-menu-wrapper {
+    box-shadow: none !important;
+  }
+}
+
+.table.dataTable .btn {
+  margin-right: 3px;
+}
+
+.page-header {
+  background: #fff;
+  padding: 7px 30px;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+.page-header h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.page-header .btn {
+  margin-top: 5px;
+}
+
+.sidebar .nav .nav-item.nav-profile .nav-link .user-wrapper .text-wrapper {
+  margin-left: 5px !important;
+}
+
+.sidebar .nav .nav-item.nav-profile .nav-link .user-wrapper .text-wrapper {
+  margin-top: 5px;
+}
+
+.sidebar .nav .nav-item.nav-profile .nav-link .user-wrapper .text-wrapper .profile-name {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.main-panel {
+  width: calc(100% - 200px);
+}
+
+.dashed-link {
+  border-bottom: 1px dashed #212529;
+  text-decoration: none !important;
+  color: #212529;
+}
+
+.alert {
+  display: block;
+}
+
+.alert button.close {
+  color: #fff;
+  font-size: 18px;
+}
+
+.form-control-plaintext {
+  line-height: 1.3rem;
+}
+
+.form-control {
+  border: 1px solid #b3afaf;
+}
+
+.cuppa-dropdown {
+  border: 1px solid #b3afaf;
+}
+
+
+
+.modal .modal-dialog .modal-content .modal-header {
+  padding: 15px 26px;
+}
+
+.modal .modal-dialog .modal-content .modal-body {
+  padding: 5px 25px 10px 25px;
+}
+
+.card {
+  box-shadow: 0 2px 2px 2px rgba(82, 63, 105, 0.05);
+}
+
+.content-wrapper {
+  background-color: rgb(247, 247, 247);
+}
+
+/* Theme Customization */
+/* Branding */
+$main-content-background: #f9f9fc;
+$base-menu-color: #ffffff;
+$base-menu-links-color: #3d3d3d;
+$sidebar-width: 200px;
+/* Branding END */
+
+/* PHASE 1*/
+.sidebar {
+  box-shadow: 13px -2px 17px -12px rgba(41, 50, 66, .1);
+  width: $sidebar-width !important;
+  position: relative;
+}
+
+.navbar-brand-wrapper {
+  width: $sidebar-width !important;
+  padding-left: 0;
+}
+
+.navbar .navbar-menu-wrapper {
+  width: calc(100% - #{$sidebar-width}) !important;
+  box-shadow: 0 0 40px 0 rgba(82, 63, 105, 0.1);
+  background: $base-menu-color;
+  color: #4a4a4a;
+}
+
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {
+  color: $base-menu-links-color !important;
+}
+
+.stretch-card > .card {
+  box-shadow: 0 0 13px 0 rgba(82, 63, 105, 0.05)
+}
+
+.content-wrapper {
+  background: $main-content-background;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand img {
+  margin-left: 30px;
+}
+
+.breadcrumb {
+  padding: 0 2px;
+  border-color: transparent;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: -7px;
+}
+
+.star-rating-absolute {
+  position: absolute;
+  top: -40px;
+  right: 10px;
+}
+
+
+.selected-list .c-list .c-token {
+  background: $blue;
+  color: #fff;
+}
+
+/* Multiselect End */
+
+/* SWITCH  BUTTON */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 26px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* SWITCH  BUTTON End */
+
+/* PHASE 2
+.navbar {
+  box-shadow: 0 5px 8px 0 rgba(82, 63, 105, 0.1);
+}
+
+.navbar .navbar-brand-wrapper {
+  background-color: #fff;
+}
+
+.navbar .navbar-menu-wrapper {
+  color: #212529;
+}
+
+.navbar .navbar-menu-wrapper .navbar-nav.header-links .nav-item.active {
+  background-color: rgba(0, 0, 0, 0.1)
+}
+*/
+/* END Theme Customization */
